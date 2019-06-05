@@ -29,55 +29,63 @@ public class ItemController {
 	private WarehouseService warehouseService;
 
 	// == get mappings ==
-	// == REST CONTROLERS ==
 
+	// == REST CONTROLLERS ==
+
+	//REST
 	@GetMapping("all")
 	public ItemListWrapper findAllItemsRest(){
 		ItemListWrapper itemListWrapper = ItemListWrapper.of(itemService.findAllItems());
 		return itemListWrapper;
 	}
 
-
-
-	@GetMapping("")
-//	@ResponseBody
-	public String getAllItems(Model model) {
-		model.addAttribute(AttributeNames.ITEMS, itemService.findAllItems());
-		model.addAttribute(AttributeNames.STOCKS, stockService.findAllStocks());
-		model.addAttribute(AttributeNames.ITEM, Item.emptyItem());
-		return Mappings.ITEM_LIST;
+	//REST
+	@GetMapping("{id}")
+	public Item getItemById(@PathVariable Long id){
+		return itemService.findItemById(id);
 	}
-
-	@GetMapping("edit/{id}")
-	public String editItem(Model model, @PathVariable Long id) {
-		model.addAttribute(AttributeNames.ITEM, itemService.findItemById(id));
-		return Mappings.ITEM_FORM;
-	}
-
-
-
-	// == post mappings ==
-	@PostMapping("")
-	public String saveItem(Model model,
-	                       @ModelAttribute @Valid Item item,
-	                       BindingResult result) {
-		if (result.hasErrors()) {
-			model.addAttribute(AttributeNames.ITEMS, itemService.findAllItems());
-			return Mappings.ITEM_LIST;
-		}
-		itemService.saveItem(item);
-		return "redirect:/" + Mappings.ITEM + "/";
-	}
-
-
-
-	@PostMapping("edit/{id}")
-	public String updateItem(@ModelAttribute @Valid Item item,
-	                         BindingResult result) {
-		if (result.hasErrors()) {
-			return Mappings.ITEM_FORM;
-		}
-		itemService.saveItem(item);
-		return "redirect:/" + Mappings.ITEM + "/";
-	}
+//
+//
+//
+//	@GetMapping("")
+////	@ResponseBody
+//	public String getAllItems(Model model) {
+//		model.addAttribute(AttributeNames.ITEMS, itemService.findAllItems());
+//		model.addAttribute(AttributeNames.STOCKS, stockService.findAllStocks());
+//		model.addAttribute(AttributeNames.ITEM, Item.emptyItem());
+//		return Mappings.ITEM_LIST;
+//	}
+//
+//	@GetMapping("edit/{id}")
+//	public String editItem(Model model, @PathVariable Long id) {
+//		model.addAttribute(AttributeNames.ITEM, itemService.findItemById(id));
+//		return Mappings.ITEM_FORM;
+//	}
+//
+//
+//
+//	// == post mappings ==
+//	@PostMapping("")
+//	public String saveItem(Model model,
+//	                       @ModelAttribute @Valid Item item,
+//	                       BindingResult result) {
+//		if (result.hasErrors()) {
+//			model.addAttribute(AttributeNames.ITEMS, itemService.findAllItems());
+//			return Mappings.ITEM_LIST;
+//		}
+//		itemService.saveItem(item);
+//		return "redirect:/" + Mappings.ITEM + "/";
+//	}
+//
+//
+//
+//	@PostMapping("edit/{id}")
+//	public String updateItem(@ModelAttribute @Valid Item item,
+//	                         BindingResult result) {
+//		if (result.hasErrors()) {
+//			return Mappings.ITEM_FORM;
+//		}
+//		itemService.saveItem(item);
+//		return "redirect:/" + Mappings.ITEM + "/";
+//	}
 }

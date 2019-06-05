@@ -24,15 +24,12 @@ public class TransferService {
 
 	// == fields ==
 	private TransferRepository transferRepository;
-	private ItemService itemService;
-	private WarehouseRepository warehouseRepository;
+//	private ItemService itemService;
+//	private WarehouseRepository warehouseRepository;
 	private StockService stockService;
 
 	// == public methods ==
 
-//	public void deleteTransfer(Transfer transfer){
-//		transferRepository.delete(transfer);
-//	}
 	public List<Transfer> findAllTransfers() {
 		return transferRepository.findAll();
 	}
@@ -56,25 +53,25 @@ public class TransferService {
 		transferRepository.save(transfer);
 	}
 
-	public Transfer populateTransferDataFromRequestBody(HttpServletRequest req, Transfer transfer) {
-		List<TransferContent> transferContents = new ArrayList<>();
-		Enumeration<String> paramNames = req.getParameterNames();
-
-		while (paramNames.hasMoreElements()) {
-			String paramName = paramNames.nextElement();
-			if (NumberUtils.isParsable(paramName)) {
-				Item itemToAdd = itemService.findItemById(NumberUtils.toLong(paramName));
-				int itemAmount = NumberUtils.toInt(req.getParameter(paramName));
-				if (itemAmount > 0) {
-					TransferContent transferContent = TransferContent.of(itemToAdd, itemAmount, transfer);
-					transferContents.add(transferContent);
-				}
-			}
-		}
-
-		transfer.setTransferContents(transferContents);
-		return transfer;
-	}
+//	public Transfer populateTransferDataFromRequestBody(HttpServletRequest req, Transfer transfer) {
+//		List<TransferContent> transferContents = new ArrayList<>();
+//		Enumeration<String> paramNames = req.getParameterNames();
+//
+//		while (paramNames.hasMoreElements()) {
+//			String paramName = paramNames.nextElement();
+//			if (NumberUtils.isParsable(paramName)) {
+//				Item itemToAdd = itemService.findItemById(NumberUtils.toLong(paramName));
+//				int itemAmount = NumberUtils.toInt(req.getParameter(paramName));
+//				if (itemAmount > 0) {
+//					TransferContent transferContent = TransferContent.of(itemToAdd, itemAmount, transfer);
+//					transferContents.add(transferContent);
+//				}
+//			}
+//		}
+//
+//		transfer.setTransferContents(transferContents);
+//		return transfer;
+//	}
 
 	public void setTransferToAccepted(Long id) {
 		transferRepository.setTransferToAccepted(id, LocalDate.now());
